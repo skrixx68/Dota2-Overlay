@@ -89,10 +89,7 @@ int main()
             cout << "Memready successfully attached..." << endl;
             //Load offsets from file
             std::vector<unsigned int> offsets = getOffsetFromText();
-            for (int i = 0; i < offsets.size(); i++)
-            {
-                cout << std::hex << offsets[i] << endl;
-            }
+
             //Resolve base address of the pointer chain
             uintptr_t dynamicPtrBaseAddr = moduleBase + offsets[0];
 
