@@ -86,7 +86,7 @@ int main()
 
         if (!hProcess == 0)
         {
-            cout << "Memready successfully attached..." << endl;
+            cout << "Handle successfully attached..." << endl;
             //Load offsets from file
             std::vector<unsigned int> offsets = getOffsetFromText();
 
@@ -102,7 +102,7 @@ int main()
             }
             
             bool visible = false;
-            cout << endl << "Overlay success" << endl;
+            cout << endl << "Overlay success..." << endl;
             writeFile(visible);
             while (true) // Loop = 50ms update
             {
@@ -139,7 +139,7 @@ int main()
                 }
                 else // Address not found or value not initiazized ingame
                 {
-                    cout << " Address not found." << endl;
+                    cout << "Address not found." << endl;
                     break;
 
                 }
@@ -158,7 +158,7 @@ int main()
     }
     else 
     {
-        cout << "Process not found." << endl;
+        cout << "Process not found..." << endl;
 
     }
     exitOverlay();
