@@ -5,6 +5,7 @@
 #include <string>
 
 using std::cout;
+using std::cin;
 using std::endl;
 
 //Write value of vbe status to text.
@@ -79,13 +80,13 @@ int main()
 
         //Getmodulebaseaddress
         uintptr_t moduleBase = GetModuleBaseAddress(procId, L"engine2.dll");
-        std::cout << std::hex << "Module Base Address: 0x" << moduleBase << std::endl;
+        //std::cout << std::hex << "Module Base Address: 0x" << moduleBase << std::endl;
 
         hProcess = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_READ | PROCESS_VM_WRITE, NULL, procId);
 
         if (!hProcess == 0)
         {
-            cout << "Handle successfully attached." << endl;
+            cout << "Memready successfully attached..." << endl;
             //Load offsets from file
             std::vector<unsigned int> offsets = getOffsetFromText();
 
@@ -94,12 +95,15 @@ int main()
 
             //Resolve our pointer chain
             std::vector<unsigned int> vbE = { offsets[1] ,offsets[2] ,offsets[3] ,offsets[4] ,offsets[5] ,offsets[6] ,offsets[7] };
-            uintptr_t vbEAddr = GetDMAAddy(hProcess, dynamicPtrBaseAddr, vbE);
-
-            //std::cout << "Visible by Enemy Address  = " << "0x" << std::hex << vbEAddr << std::endl << std::endl;
-
+            uintptr_t vbEAddr = FindDMAAddy(hProcess, dynamicPtrBaseAddr, vbE);
+            cout << "Waiting ingame activation..." << endl;
+            while(vbEAddr == 0)
+            {
+                vbEAddr = FindDMAAddy(hProcess, dynamicPtrBaseAddr, vbE);
+            }
+            
             bool visible = false;
-            cout << "Overlay success" << endl;
+            cout << endl << "Overlay success" << endl;
             writeFile(visible);
             while (true) // Loop = 50ms update
             {
@@ -136,7 +140,7 @@ int main()
                 }
                 else // Address not found or value not initiazized ingame
                 {
-                    cout << "Address not found , Try to update offset." << endl;
+                    cout << " Address not found." << endl;
                     break;
 
                 }
@@ -149,7 +153,7 @@ int main()
         }
         else
         {
-            cout << "Failed to attach process.";
+            cout << "Failed to attach process. Try running with administrative previlages";
 
         }
     }
