@@ -35,8 +35,8 @@ std::vector<unsigned int> getOffsetFromText() {
 
     std::fstream file;
     std::string word;
-    std::vector<std::string> offsets(8);
-    std::vector<unsigned int> offsetsInt(8);
+    std::vector<std::string> offsets;
+    std::vector<unsigned int> offsetsInt;
 
     //Open text file
     file.open("offs.conf", std::ios::out | std::ios::in);
@@ -49,7 +49,7 @@ std::vector<unsigned int> getOffsetFromText() {
     {
         if (i >= 8) break;
 
-        offsets[i] = word;
+        offsets.push_back(word);
         i++;
     }
     for (size_t i = 0; i < offsets.size(); i++)
@@ -57,7 +57,7 @@ std::vector<unsigned int> getOffsetFromText() {
         std::istringstream buffer(offsets[i]);
         unsigned long long value;
         buffer >> std::hex >> value;
-        offsetsInt[i] = value;
+        offsetsInt.push_back(value);
     }
     return offsetsInt;
 }
@@ -89,17 +89,19 @@ int main()
             cout << "Memready successfully attached..." << endl;
             //Load offsets from file
             std::vector<unsigned int> offsets = getOffsetFromText();
-
+            for (int i = 0; i < offsets.size(); i++)
+            {
+                cout << std::hex << offsets[i] << endl;
+            }
             //Resolve base address of the pointer chain
             uintptr_t dynamicPtrBaseAddr = moduleBase + offsets[0];
 
             //Resolve our pointer chain
-            std::vector<unsigned int> vbE = { offsets[1] ,offsets[2] ,offsets[3] ,offsets[4] ,offsets[5] ,offsets[6] ,offsets[7] };
-            uintptr_t vbEAddr = FindDMAAddy(hProcess, dynamicPtrBaseAddr, vbE);
+            uintptr_t vbEAddr = FindDMAAddy(hProcess, dynamicPtrBaseAddr, offsets);
             cout << "Waiting ingame activation..." << endl;
             while(vbEAddr == 0)
             {
-                vbEAddr = FindDMAAddy(hProcess, dynamicPtrBaseAddr, vbE);
+                vbEAddr = FindDMAAddy(hProcess, dynamicPtrBaseAddr, offsets);
             }
             
             bool visible = false;
