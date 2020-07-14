@@ -14,3 +14,6 @@ Memory reading is also lightweight by minimizing privilege and is done externall
 Usage :
 Run Dota2Overlay.exe ingame
 Press END to exit
+
+Internal Version
+https://github.com/skrixx68/Dota2-Overlay-Internal-D3D9
