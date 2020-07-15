@@ -79,7 +79,7 @@ uintptr_t FindDMAAddy(HANDLE hProc, uintptr_t ptr, std::vector<unsigned int> off
 		addr += offsets[i];
 		if (!ValidatePointer(addr,hProc))
 		{
-			Sleep(1000);
+			Sleep(500);
 			return 0;
 		}
 	}

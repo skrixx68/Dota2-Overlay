@@ -63,10 +63,12 @@ std::vector<unsigned int> getOffsetFromText() {
 }
             //Not Visible = 06(radiant team) , 10(dire team) ; Visible = 14 
             //Update address
-            //AOB = 06 00 00 00 ?? ?? ?? ?? F? 7F 00 00 ?? ?? ?? 0?
-            //AOB sig test = 06 00 00 00 ?? ?? ?? ?? F? 7F 00 00 ?? ?? ?? 0? 00 00 00 00 0? 00 00 00 00 00 00 00 80 00 46 89 = 32bytes
+            //AOB = 06 00 00 00 ?? ?? ?? ?? F? 7F 00 00 ?? ?? ?? 0? 00 00 00 00 0? 00 00 00 00 00 00 00 ?0 0? ?? ?? = 32bytes (50results)
+            //AOB sig test = 06 00 00 00 ?0 ?? 9? ?? F? 7F 00 00 ?? 8? ?? 0? 00 00 00 00 0? 00 00 00 00 00 00 00 ?0 0? ?? ?? ?? 02 00 00 04 00 00 00 00 00 00 00 05 00 00 00 00 00 00 00 ?0 ?? ?? ?? ?? 02 00 00 08 00 00 00 00 00 00 00 00 FF FF FF = 72bytes
             //BaseAddr = engine2.dll + 00??????
             //Offset must end with = 0x170 ,0x0 ,0x1E4
+            //New particle hack = client.dll+2D66D48 client.dll+2D66A48
+            //sv_cheats 1 =  engine2.dll+540C98
 int main()
 {
     //Get Handle to Process
@@ -102,7 +104,7 @@ int main()
             }
             
             bool visible = false;
-            cout << endl << "Overlay success..." << endl;
+            cout << endl << "Overlay success" << endl;
             writeFile(visible);
             while (true) // Loop = 50ms update
             {
@@ -139,7 +141,7 @@ int main()
                 }
                 else // Address not found or value not initiazized ingame
                 {
-                    cout << "Address not found." << endl;
+                    cout << " Address not found." << endl;
                     break;
 
                 }
@@ -158,7 +160,7 @@ int main()
     }
     else 
     {
-        cout << "Process not found..." << endl;
+        cout << "Process not found." << endl;
 
     }
     exitOverlay();
