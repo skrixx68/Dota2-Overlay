@@ -3,7 +3,7 @@
 
 #include "include.h"
 #include "proc.h"
-#include "MemEx.h"
+
 
 using std::cout;
 using std::cin;
@@ -14,49 +14,13 @@ std::vector<unsigned int> getOffsetFromText();
 void exitOverlay();
 void writeFile(bool vBe);
 void MainHack();
-DWORD TestHack();
 bool ReadVBE(uintptr_t address);
 
-MemEx meme = MemEx();
 
-
+// TODO: Add more features like patternscan , cameradistance etc...
 int main()
 {
     MainHack();
-}
-
-DWORD TestHack()
-{
-
-    DWORD pId = meme.GetProcessIdByName(L"dota2.exe");
-    if (pId != 0)
-    {
-        cout << "Process ID found =" << pId << endl;
-        meme.Open(pId, meme.dwDesiredAccess);
-        if (meme.IsOpened())
-        {
-            cout << "Handle successfully attached..." << endl;
-            DWORD modSize;
-            uintptr_t modBaseAddr = meme.GetModuleBase(L"engine2.dll", &modSize);
-
-            if (modBaseAddr == 0)
-            {
-                cout << "Module Base Not Found" << endl;
-                return NULL;
-            }
-            //uintptr_t addr = meme.AOBScan("06 00 00 00 ?? ?? ?? ?? ?? 7F 00 00 ?? ?? ?? ?? 00 00 00 00 ?? 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? 00 00 00 00 00 00 00 ?? 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? 00 00 00 00 00 00 00 00 FF FF FF", ScanBoundaries::ScanBoundaries(SCAN_BOUNDARIES::RANGE, 0x10000000000, 0x3ffffffffff), PAGE_READWRITE, patSize, 4, true);
-            //Read VBE
-            //ReadVBE(0x1C2B1A245FC);
-            
-
-            meme.Close();
-        }
-        else
-            cout << "handle not found" << endl;
-
-    }
-    else
-        cout << "Process ID not found" << endl;
 }
 
 
@@ -202,6 +166,7 @@ bool ReadVBE(uintptr_t address)
 }
 
 //Write value of vbe status to text.
+//This will be read by the Overlay
 void writeFile(bool vBe)
 {
     std::ofstream myfile;
@@ -227,11 +192,9 @@ void exitOverlay() {
 //Not Visible = 06(radiant team) , 10(dire team) ; Visible = 14 
 //Update address
 //AOB = 06 00 00 00 ?? ?? ?? ?? F? 7F 00 00 ?? ?? ?? 0? 00 00 00 00 0? 00 00 00 00 00 00 00 ?0 0? ?? ?? = 32bytes (50results)
-//AOB sig test = 06 00 00 00 ?0 ?? 9? ?? F? 7F 00 00 ?? 8? ?? 0? 00 00 00 00 0? 00 00 00 00 00 00 00 ?0 0? ?? ?? ?? 02 00 00 04 00 00 00 00 00 00 00 05 00 00 00 00 00 00 00 ?0 ?? ?? ?? ?? 02 00 00 08 00 00 00 00 00 00 00 00 FF FF FF = 72bytes
+//AOB sig  = 06 00 00 00 ?0 ?? ?? ?? F? 7F 00 00 ?? ?? ?? 0? 00 00 00 00 0? 00 00 00 00 00 00 00 ?0 0? ?? ?? ?? 0? 00 00 0? 00 00 00 00 00 00 00 0? 00 00 00 00 00 00 00 ?0 ?? ?? ?? ?? 0? 00 00 ?? 00 00 00 00 00 00 00 0? FF FF FF = 72bytes (1result)
 //BaseAddr = engine2.dll + 00??????
-//Offset must end with = 0x170 ,0x0 ,0x1E4
-//New particle hack = client.dll+2D66D48 client.dll+2D66A48
-//sv_cheats 1 =  engine2.dll+540C98
+
 
 //Read offsets from config file.
 std::vector<unsigned int> getOffsetFromText() {
@@ -241,7 +204,7 @@ std::vector<unsigned int> getOffsetFromText() {
     std::vector<std::string> offsets;
     std::vector<unsigned int> offsetsInt;
 
-    //Open text file
+    //Open config file
     file.open("offs.conf", std::ios::out | std::ios::in);
     if (file.fail()) {
         cout << "Failed to load config file...";
