@@ -123,48 +123,6 @@ void MainHack()
     Sleep(3000);
 }
 
-bool ReadVBE(uintptr_t address) 
-{
-    int vbEVal = 0; //buffer
-    bool visible = false;
-    while (!GetAsyncKeyState(VK_END))
-    {
-        bool res = meme.Read(address, &vbEVal, 2);
-        cout << vbEVal << endl;
-        //Test Value
-        if (vbEVal == 14) // Visible by enemy
-        {
-            if (visible == false)
-            {
-                visible = true;
-                writeFile(visible);
-
-            }
-        }
-        else if (vbEVal >= 6 && vbEVal <= 10) // Not visible by enemy
-        {
-            if (visible == true)
-            {
-                visible = false;
-                writeFile(visible);
-
-            }
-        }
-        else // Address not found or value not initiazized ingame
-        {
-            cout << " Address not found." << endl;
-            cout << ".........." << endl;
-            meme.Close();
-            Sleep(3000);
-            exit(1);
-            return false;
-
-        }
-        Sleep(5);
-    }
-    
-}
-
 //Write value of vbe status to text.
 //This will be read by the Overlay
 void writeFile(bool vBe)
