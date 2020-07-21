@@ -14,7 +14,6 @@ std::vector<unsigned int> getOffsetFromText();
 void exitOverlay();
 void writeFile(bool vBe);
 void MainHack();
-bool ReadVBE(uintptr_t address);
 
 
 // TODO: Add more features like patternscan , cameradistance etc...
