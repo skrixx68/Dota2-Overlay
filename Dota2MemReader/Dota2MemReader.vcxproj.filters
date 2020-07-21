@@ -16,6 +16,9 @@
     <Filter Include="Proc">
       <UniqueIdentifier>{dd6a784d-4ce2-421a-923c-d39715fa031c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MemEx">
+      <UniqueIdentifier>{551a0275-1035-44e5-a5fa-30986dba0d20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dota2MemReader.cpp">
@@ -24,6 +27,9 @@
     <ClCompile Include="proc.cpp">
       <Filter>Proc</Filter>
     </ClCompile>
+    <ClCompile Include="MemEx.cpp">
+      <Filter>MemEx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="proc.h">
@@ -31,6 +37,9 @@
     </ClInclude>
     <ClInclude Include="include.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemEx.h">
+      <Filter>MemEx</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

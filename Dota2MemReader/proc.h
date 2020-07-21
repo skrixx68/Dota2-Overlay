@@ -1,5 +1,5 @@
+#pragma once
 #include "include.h"
-
 
 DWORD GetProcId(const wchar_t* procname);
 
