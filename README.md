@@ -1,5 +1,8 @@
 # Dota2 Overlay
-Note: This program is meant to be an experimental purposes and may also be considered as a 3rd party program, im not responsible for any actions you make.
+	** Project abandoned and will not be maintained **
+
+Note:
+This program is meant to be an experimental purposes and may also be considered as a 3rd party program, im not responsible for any actions you make.
 
 The purpose if this program is to notify the user if his current position is visible to the enemy team.
 There are 2 programs that does the job individualy, One checks the memory for updated information and the other display the current information through overlay.
@@ -17,3 +20,4 @@ Press END to exit
 
 Internal Version
 https://github.com/skrixx68/Dota2-Overlay-Internal-D3D9
+
