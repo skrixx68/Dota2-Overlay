@@ -3,6 +3,7 @@
 
 #include "include.h"
 #include "proc.h"
+#include "patternscan.h"
 
 
 using std::cout;
@@ -16,14 +17,7 @@ void writeFile(bool vBe);
 void MainHack();
 
 
-// TODO: Add more features like patternscan , cameradistance etc...
 int main()
-{
-    MainHack();
-}
-
-
-void MainHack()
 {
     //Get Handle to Process
     HANDLE hProcess = 0;
@@ -42,19 +36,28 @@ void MainHack()
 
         if (!hProcess == 0)
         {
-            cout << "Handle successfully attached..." << endl;
-            //Load offsets from file
-            std::vector<unsigned int> offsets = getOffsetFromText();
 
+            cout << "Handle successfully created..." << endl;
+
+            std::vector<unsigned int> offsets = { 0x40, 0x98, 0x170, 0x0, 0x418, 0x20, 0xE04 };
             //Resolve base address of the pointer chain
-            uintptr_t dynamicPtrBaseAddr = moduleBase + offsets[0];
+            void* vbeBaseAddr = PatternScanExModule(hProcess, L"dota2.exe", L"engine2.dll", "\x00\x18\x23\x2E\x16\x02\x00\x00\x10\x00\x00\x00\x00\x00\x00\x00\x25\x00\x00\x00\x00\x00\x00\x00\x00\x08\x58\x12\x16\x02\x00\x00", "??????xxxxxxxxxxxxxxxxxxx?????xx");
+            cout << "Base Address = " << std::hex << (uintptr_t)vbeBaseAddr << endl;
+
 
             //Resolve our pointer chain
-            uintptr_t vbEAddr = FindDMAAddy(hProcess, dynamicPtrBaseAddr, offsets);
+            uintptr_t vbEAddr = FindDMAAddy(hProcess, (uintptr_t)vbeBaseAddr, offsets);
             cout << "Waiting ingame activation..." << endl;
             while (vbEAddr == 0)
             {
-                vbEAddr = FindDMAAddy(hProcess, dynamicPtrBaseAddr, offsets);
+                if (GetAsyncKeyState(VK_END))
+                {
+                    return 0;
+                    break;
+                }
+
+                vbEAddr = FindDMAAddy(hProcess, (uintptr_t)vbeBaseAddr, offsets);
+                Sleep(5);
             }
 
             bool visible = false;

@@ -16,8 +16,8 @@
     <Filter Include="Proc">
       <UniqueIdentifier>{dd6a784d-4ce2-421a-923c-d39715fa031c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MemEx">
-      <UniqueIdentifier>{551a0275-1035-44e5-a5fa-30986dba0d20}</UniqueIdentifier>
+    <Filter Include="Pattern">
+      <UniqueIdentifier>{e8f66cfe-0f22-4b9b-958f-873903b94bca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,8 +27,8 @@
     <ClCompile Include="proc.cpp">
       <Filter>Proc</Filter>
     </ClCompile>
-    <ClCompile Include="MemEx.cpp">
-      <Filter>MemEx</Filter>
+    <ClCompile Include="patterscan.cpp">
+      <Filter>Pattern</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,8 +38,8 @@
     <ClInclude Include="include.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MemEx.h">
-      <Filter>MemEx</Filter>
+    <ClInclude Include="patternscan.h">
+      <Filter>Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
